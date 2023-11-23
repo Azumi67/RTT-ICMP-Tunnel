@@ -36,7 +36,7 @@
  **پیش نیازها**
 
  - لطفا سرور اپدیت شده باشه.
- - میتوانید از اسکریپت اقای [Hwashemi](https://github.com/hawshemi/Linux-Optimizer) و یا [OPIRAN](https://github.com/opiran-club/VPS-Optimizer) هم در صورت تمایل استفاده نمایید. (پیش نیاز نیست)
+ - میتوانید از اسکریپت اقای [Hwashemi](https://github.com/hawshemi/Linux-Optimizer) و یا [OPIRAN](https://github.com/opiran-club/VPS-Optimizer) هم برای بهینه سازی سرور در صورت تمایل استفاده نمایید. (پیش نیاز نیست)
 
 
 ----------------------------
