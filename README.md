@@ -17,7 +17,7 @@
 **دسترسی سریع به اسکریپت**
 
 
-- [کلیک - click]()
+- [کلیک - click](https://github.com/Azumi67/RTT-ICMP-Tunnel#%D8%A7%D8%B3%DA%A9%D8%B1%DB%8C%D9%BE%D8%AA-%D9%85%D9%86)
 ------------------------
 ![check](https://github.com/Azumi67/PrivateIP-Tunnel/assets/119934376/13de8d36-dcfe-498b-9d99-440049c0cf14)
 **امکانات**
@@ -382,7 +382,7 @@ python3 <(curl -Ls https://raw.githubusercontent.com/Azumi67/RTT-ICMP-Tunnel/mai
  <div dir="rtl">&bull; اگر سرور شما خطای externally-managed-environment داد از دستور زیر اقدام به اجرای اسکریپت نمایید.</div>
  
 ```
-
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Azumi67/RTT-ICMP-Tunnel/main/managed2.sh)"
 ```
 
 ---------------------------------------------
