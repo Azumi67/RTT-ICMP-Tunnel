@@ -625,10 +625,11 @@ def rtt_icmp_single():
             print('Invalid choice.')
 			
 def dl_and_install(url):
+    subprocess.run(["sudo", "apt", "install", "zip", "-y"])
+
     filename = url.split('/')[-1]
     zip_path = os.path.join(os.getcwd(), filename)
     try:
-
         urllib.request.urlretrieve(url, zip_path)
 
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
