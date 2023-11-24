@@ -405,7 +405,7 @@ def restart_serv():
                 print("\r[%s]             " % frame, end="")
                 time.sleep(delay)
 
-        display_checkmark("\033[92mUninstall completed!\033[0m")
+        display_checkmark("\033[92mRestart completed!\033[0m")
     except subprocess.CalledProcessError as e:
         print("Error:", e.output.decode().strip())
         
@@ -436,7 +436,7 @@ def stop_serv():
                 print("\r[%s]             " % frame, end="")
                 time.sleep(delay)
 
-        display_checkmark("\033[92mUninstall completed!\033[0m")
+        display_checkmark("\033[92mService Stopped!\033[0m")
     except subprocess.CalledProcessError as e:
         print("Error:", e.output.decode().strip())
         
