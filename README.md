@@ -368,10 +368,14 @@ wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-opti
 ![R (a2)](https://github.com/Azumi67/PrivateIP-Tunnel/assets/119934376/716fd45e-635c-4796-b8cf-856024e5b2b2)
 **اسکریپت من**
 ----------------
-
+- اگر با دستورات زیر نتوانستید اسکریپت را اجرا کنید، نخست دستور زیر را اجرا نمایید و سپس دستور اسکریپت را اجرا نمایید.
 
 ```
-apt install python3 -y && apt install pip -y &&  pip install colorama && pip install netifaces && apt install curl -y && python3 <(curl -Ls https://raw.githubusercontent.com/Azumi67/RTT-ICMP-Tunnel/main/rtt-icmp.py --ipv4)
+sudo apt-get install python-pip -y  && apt-get install python3 -y && alias python=python3
+```
+- سپس این دستور را اجرا نمایید.
+```
+sudo apt-get install python3 -y && apt-get install wget -y && apt-get install python3-pip -y && pip3 install colorama && pip3 install netifaces && apt-get install curl -y && python3 <(curl -Ls https://raw.githubusercontent.com/Azumi67/V2ray_loadbalance_multipleServers/main/loadbalance.py --ipv4)
 ```
 --------------------------------------
  <div dir="rtl">&bull;  دستور زیر برای کسانی هست که پیش نیاز ها را در سرور، نصب شده دارند</div>
