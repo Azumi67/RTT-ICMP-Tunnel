@@ -371,7 +371,7 @@ wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-opti
 - اگر با دستورات زیر نتوانستید اسکریپت را اجرا کنید، نخست دستور زیر را اجرا نمایید و سپس دستور اسکریپت را اجرا نمایید.
 
 ```
-sudo apt-get install python-pip -y  && apt-get install python3 -y && alias python=python3
+sudo apt-get install python-pip -y  &&  apt-get install python3 -y && alias python=python3 && python -m pip install colorama && python -m pip install netifaces
 ```
 - سپس این دستور را اجرا نمایید.
 ```
