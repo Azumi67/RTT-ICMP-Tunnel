@@ -175,7 +175,24 @@ def main_menu():
     except KeyboardInterrupt:
         display_error("\033[91m\nProgram interrupted. Exiting...\033[0m")
         sys.exit()
+def reset_icmp():
+    try:
+        reset_ipv4 = False
+        reset_ipv6 = False
 
+        os.system("sysctl -w net.ipv4.icmp_echo_ignore_all=0")
+        reset_ipv4 = True
+
+        os.system("sudo sysctl -w net.ipv6.icmp.echo_ignore_all=0")
+        reset_ipv6 = True
+
+        if reset_ipv4 or reset_ipv6:
+            display_checkmark("\033[92mICMP has been reset to default!\033[0m")
+        else:
+            display_notification("\033[93mICMP settings has been reset.\033[0m")
+    except Exception as e:
+        display_error("\033[91mAn error occurred: {}\033[0m".format(str(e)))
+	    
 def uni_menu():
     os.system("clear")
     print('\033[92m ^ ^\033[0m')
@@ -208,7 +225,7 @@ def remove_hans_tcp():
     os.system("clear")
     display_notification("\033[93mRemoving Hans + RTT ...\033[0m")
     print("\033[93m╭───────────────────────────────────────╮\033[0m")
-
+    reset_icmp()
     try:
         if subprocess.call("test -f /etc/hans.sh", shell=True) == 0:
             subprocess.run("rm /etc/hans.sh", shell=True)
@@ -264,7 +281,7 @@ def remove_icmp_tcp():
     os.system("clear")
     display_notification("\033[93mRemoving icmptunnel...\033[0m")
     print("\033[93m╭───────────────────────────────────────╮\033[0m")
-
+    reset_icmp()
     try:
         if os.path.isfile("/etc/icmp.sh"):
             os.remove("/etc/icmp.sh")
@@ -446,9 +463,9 @@ def install_hans():
     display_loading()
     subprocess.run(["echo", "'nameserver 8.8.8.8'", ">", "/etc/resolv.conf"], stderr=subprocess.DEVNULL, check=True, shell=True)
 
-    with open("/etc/sysctl.conf", "a") as sysctl_conf:
-        sysctl_conf.write("net.ipv4.ip_forward=1\n")
-    subprocess.run(["sysctl", "-p"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+    ipv4_forward_status = subprocess.run(["sysctl", "net.ipv4.ip_forward"], capture_output=True, text=True)
+    if "net.ipv4.ip_forward = 0" not in ipv4_forward_status.stdout:
+        subprocess.run(["sudo", "sysctl", "-w", "net.ipv4.ip_forward=1"])
 
     subprocess.run(["wget", "https://sourceforge.net/projects/hanstunnel/files/source/hans-1.1.tar.gz"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
     subprocess.run(["tar", "-xzf", "hans-1.1.tar.gz"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
@@ -470,10 +487,14 @@ def install_icmp():
     subprocess.run(['sudo', 'tee', '/etc/resolv.conf'], input='nameserver 8.8.8.8\n', capture_output=True, text=True)
 
 
-    subprocess.run(['sudo', 'sysctl', '-w', 'net.ipv4.ip_forward=1'], capture_output=True)
+    ipv4_forward_status = subprocess.run(["sysctl", "net.ipv4.ip_forward"], capture_output=True, text=True)
+    if "net.ipv4.ip_forward = 0" not in ipv4_forward_status.stdout:
+        subprocess.run(["sudo", "sysctl", "-w", "net.ipv4.ip_forward=1"])
 
 
-    subprocess.run(['sudo', 'sysctl', '-w', 'net.ipv6.conf.all.forwarding=1'], capture_output=True)
+    ipv6_forward_status = subprocess.run(["sysctl", "net.ipv6.conf.all.forwarding"], capture_output=True, text=True)
+    if "net.ipv6.conf.all.forwarding = 0" not in ipv6_forward_status.stdout:
+        subprocess.run(["sudo", "sysctl", "-w", "net.ipv6.conf.all.forwarding=1"])
 
 
     if os.path.exists("/root/icmptunnel"):
@@ -510,7 +531,7 @@ def rtt_ic_kharej():
     print("\033[93m──────────────────────────────────────────────────\033[0m")
     display_notification("\033[93mConfiguring Kharej ...\033[0m")
     print("\033[93m──────────────────────────────────────────────────\033[0m")
-    subprocess.run(["echo", "1", ">", "/proc/sys/net/ipv4/icmp_echo_ignore_all"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=True)
+    subprocess.Popen('echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all', shell=True, stderr=subprocess.PIPE).wait()
 
     if os.path.exists("/etc/icmp.sh"):
         os.remove("/etc/icmp.sh")
@@ -537,7 +558,7 @@ def rtt_ic_iran():
     print("\033[93m──────────────────────────────────────────────────\033[0m")
     display_notification("\033[93mConfiguring IRAN ...\033[0m")
     print("\033[93m──────────────────────────────────────────────────\033[0m")
-    subprocess.run(["echo", "1", ">", "/proc/sys/net/ipv4/icmp_echo_ignore_all"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=True)
+    subprocess.Popen('echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all', shell=True, stderr=subprocess.PIPE).wait()
 
     os.chdir("/root/icmptunnel")
 
@@ -826,7 +847,7 @@ def hns_rrtt_kharej():
     print("\033[93m──────────────────────────────────────────────────\033[0m")
     display_notification("\033[93mConfiguring ...\033[0m")
     print("\033[93m──────────────────────────────────────────────────\033[0m")
-    subprocess.run(["echo", "1", ">", "/proc/sys/net/ipv4/icmp_echo_ignore_all"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=True)
+    subprocess.Popen('echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all', shell=True, stderr=subprocess.PIPE).wait()
     hans_directory = "/root/hans-1.1"
 
     os.chdir(hans_directory)
@@ -858,7 +879,7 @@ def hns_rrtt_iran():
     print("\033[93m──────────────────────────────────────────────────\033[0m")
     display_notification("\033[93mConfiguring ...\033[0m")
     print("\033[93m──────────────────────────────────────────────────\033[0m")
-    subprocess.run(["echo", "1", ">", "/proc/sys/net/ipv4/icmp_echo_ignore_all"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=True)
+    subprocess.Popen('echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all', shell=True, stderr=subprocess.PIPE).wait()
     server_ipv4 = input("\033[93mEnter \033[92mKharej\033[93m IPv4 address: \033[0m")
 
     os.chdir("/root/hans-1.1")
